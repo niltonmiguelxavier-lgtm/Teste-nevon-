@@ -1,5 +1,8 @@
 # Express Delivery
 
+**Aplicação em produção:** https://express-delivery-navy.vercel.app
+· **Repositório:** https://github.com/niltonmiguelxavier-lgtm/Teste-nevon-
+
 Plataforma de entregas ao domicílio para Maputo e Matola: catálogo, carrinho, pedidos,
 pagamentos online via **Nevon Pay** (sandbox), acompanhamento de entregas em tempo real,
 painel administrativo e painel do entregador.
