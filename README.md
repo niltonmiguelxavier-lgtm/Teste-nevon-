@@ -224,3 +224,52 @@ Resultados em `test-results.json`.
 - `mpesa`/`emola` permanecem `503 PROVIDER_NOT_CONFIGURED` porque a própria Nevon Pay o
   indica na documentação; não foram inventados métodos alternativos.
 - Webhooks não estão documentados; o handler é defensivo (ver §3).
+
+---
+
+## 9. Capturas de ecrã
+
+| | |
+|---|---|
+| **Página inicial** | ![Início](docs/screenshots/01-inicio.png) |
+| **Início (telemóvel)** | ![Início mobile](docs/screenshots/02a-mobile-topo.png) |
+| **Catálogo** | ![Produtos](docs/screenshots/03-produtos.png) |
+| **Carrinho** | ![Carrinho](docs/screenshots/04-carrinho.png) |
+| **Finalizar / pagamento** | ![Finalizar](docs/screenshots/18-finalizar.png) |
+| **Acompanhamento do pedido** | ![Pedido](docs/screenshots/08-pedido.png) |
+| **Conta do cliente** | ![Conta](docs/screenshots/07-conta.png) |
+| **Painel administrativo** | ![Admin](docs/screenshots/09-admin.png) |
+| **Pedidos (admin)** | ![Pedidos](docs/screenshots/10-admin-pedidos.png) |
+| **Diagnóstico Nevon Pay** | ![Nevon Pay](docs/screenshots/11-admin-nevonpay.png) |
+| **Relatórios financeiros** | ![Relatórios](docs/screenshots/13-admin-relatorios.png) |
+| **Painel do entregador** | ![Entregador](docs/screenshots/14-entregador.png) |
+
+## 10. Contas de demonstração (criadas pelo seed)
+
+| Função | Email | Palavra-passe |
+|---|---|---|
+| Administrador | `niltonmiguelxavier@gmail.com` | `ExpressAdmin2026` |
+| Administrador | `admin@expressdelivery.co.mz` | `ExpressAdmin2026` |
+| Entregador | `carlos@expressdelivery.co.mz` | `Entregador2026` |
+| Entregador | `amina@expressdelivery.co.mz` | `Entregador2026` |
+| Cliente | `cliente@expressdelivery.co.mz` | `Cliente2026` |
+
+Altere estas palavras-passe (`SEED_ADMIN_PASSWORD`, `SEED_COURIER_PASSWORD`,
+`SEED_CUSTOMER_PASSWORD`) antes de qualquer utilização real.
+
+## 11. Rotas
+
+**Públicas:** `/`, `/produtos`, `/como-funciona`, `/contactos`, `/acompanhar`, `/carrinho`,
+`/entrar`
+
+**Cliente:** `/finalizar`, `/conta`, `/pedido/[referência]`
+
+**Entregador:** `/entregador`
+
+**Administração (privado, `noindex`):** `/admin`, `/admin/pedidos`, `/admin/transaccoes`,
+`/admin/produtos`, `/admin/clientes`, `/admin/entregadores`, `/admin/relatorios`,
+`/admin/nevonpay`
+
+**API:** `/api/health`, `/api/catalog`, `/api/cart`, `/api/auth/{register,login,logout}`,
+`/api/orders`, `/api/orders/[referência]`, `/api/payments/create`, `/api/payments/verify`,
+`/api/payments/webhook`, `/api/courier/deliveries[/[id]]`, `/api/admin/*`

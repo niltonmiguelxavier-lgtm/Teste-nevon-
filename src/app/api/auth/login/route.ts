@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   const ip = clientIp(request);
-  const limit = rateLimit(`login:${ip}`, 10, 300);
+  const limit = rateLimit(`login:${ip}`, 20, 300);
   if (!limit.allowed) {
     return errorJson("RATE_LIMITED", "Demasiadas tentativas de início de sessão. Aguarde e tente novamente.", {
       status: 429,

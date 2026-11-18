@@ -7,8 +7,8 @@ export function SiteFooter() {
         <div className="footer__grid">
           <div>
             <Link href="/" className="brand" style={{ color: "#fff", marginBottom: 12 }}>
-              <span className="brand__mark" style={{ background: "#12b76a", color: "#04231a" }}>
-                E<span style={{ color: "#04231a" }}>D</span>
+              <span className="brand__mark" style={{ background: "#12b76a", color: "#04231a" }} aria-hidden="true">
+                ED
               </span>
               <span>
                 Express Delivery

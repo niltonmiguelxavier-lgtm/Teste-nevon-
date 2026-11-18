@@ -206,15 +206,20 @@ textarea {
   font-size: 1.12rem;
 }
 .brand__mark {
-  width: 30px;
-  height: 30px;
+  flex: none;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: var(--ink);
   color: var(--paper);
-  display: grid;
-  place-items: center;
-  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
 }
 .brand__mark span {
   color: var(--green);
@@ -269,8 +274,13 @@ textarea {
   display: grid;
   place-items: center;
 }
+.nav__mobile-actions {
+  display: none;
+}
 .nav__toggle {
   display: none;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: 1px solid var(--paper-line);
   border-radius: 8px;
@@ -404,6 +414,7 @@ textarea {
 .hero h1 em {
   font-style: normal;
   color: var(--green);
+  white-space: nowrap;
 }
 .hero p {
   color: #c3cbc9;
@@ -707,6 +718,26 @@ textarea {
   width: 100%;
   height: 100%;
   border: 0;
+  position: relative;
+  z-index: 1;
+}
+.map__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 24px;
+  color: var(--muted-strong);
+  font-size: 0.88rem;
+  background:
+    radial-gradient(420px 220px at 30% 20%, rgba(18, 183, 106, 0.14), transparent 60%),
+    repeating-linear-gradient(0deg, #eef0ed 0 1px, transparent 1px 38px),
+    repeating-linear-gradient(90deg, #eef0ed 0 1px, transparent 1px 38px);
 }
 
 /* ----------------------------------------------------------------- forms */
@@ -886,6 +917,7 @@ table.data tr:hover td {
 
 .pill {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   gap: 6px;
   padding: 3px 9px;
@@ -895,6 +927,7 @@ table.data tr:hover td {
   letter-spacing: 0.01em;
   white-space: nowrap;
   border: 1px solid transparent;
+  flex: none;
 }
 .pill--green {
   background: var(--green-wash);
@@ -1389,17 +1422,54 @@ table.data tr:hover td {
 }
 
 @media (max-width: 760px) {
+  .nav__inner {
+    gap: 10px;
+    height: 64px;
+  }
+  .brand {
+    font-size: 1rem;
+    min-width: 0;
+  }
+  .brand small {
+    display: none;
+  }
+  .brand > span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .nav__links {
     display: none;
   }
+  .nav__link-sep {
+    display: none;
+  }
   .nav__toggle {
-    display: block;
-    order: 3;
+    display: inline-flex;
+    order: 0;
+  }
+  .nav__auth {
+    display: none;
+  }
+  .nav__actions {
+    gap: 8px;
+  }
+  .nav__cart {
+    padding: 8px 12px;
+  }
+  .nav__mobile-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid var(--paper-line);
+    margin-top: 6px;
   }
   .nav--open .nav__links {
     display: flex;
     position: absolute;
-    top: 70px;
+    top: 64px;
     left: 0;
     right: 0;
     background: var(--paper);

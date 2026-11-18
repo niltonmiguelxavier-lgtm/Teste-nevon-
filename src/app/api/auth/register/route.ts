@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  const limit = rateLimit(`register:${clientIp(request)}`, 8, 300);
+  const limit = rateLimit(`register:${clientIp(request)}`, 10, 300);
   if (!limit.allowed) {
     return errorJson("RATE_LIMITED", "Demasiadas tentativas. Tente novamente mais tarde.", {
       status: 429,

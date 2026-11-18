@@ -43,8 +43,8 @@ export function SiteHeader({ user, cartCount }: Props) {
       <header className="nav">
         <div className="container nav__inner">
           <Link href="/" className="brand" aria-label="Express Delivery — página inicial">
-            <span className="brand__mark">
-              E<span>D</span>
+            <span className="brand__mark" aria-hidden="true">
+              ED
             </span>
             <span>
               Express Delivery
@@ -85,9 +85,46 @@ export function SiteHeader({ user, cartCount }: Props) {
               {item.label}
             </Link>
           ))}
+          <div className="nav__mobile-actions">
+            {user ? (
+              <>
+                <Link
+                  href={user.role === "ADMIN" ? "/admin" : user.role === "COURIER" ? "/entregador" : "/conta"}
+                  className="btn btn--sm"
+                  onClick={() => setOpen(false)}
+                >
+                  {user.role === "CUSTOMER" ? "A minha conta" : "Painel"}
+                </Link>
+                <button className="btn btn--ghost btn--sm" onClick={logout} disabled={busy}>
+                  {busy ? "A sair…" : "Terminar sessão"}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/entrar" className="btn btn--ghost btn--sm" onClick={() => setOpen(false)}>
+                  Entrar
+                </Link>
+                <Link
+                  href="/entrar?modo=registo"
+                  className="btn btn--green btn--sm"
+                  onClick={() => setOpen(false)}
+                >
+                  Criar conta
+                </Link>
+              </>
+            )}
+          </div>
         </nav>
 
         <div className="nav__actions">
+          <button
+            className="nav__toggle"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-label="Abrir menu"
+          >
+            {open ? "✕" : "☰"}
+          </button>
           <Link href="/carrinho" className="btn btn--ghost btn--sm nav__cart" aria-label="Carrinho">
             Carrinho
             {cartCount > 0 ? <span className="nav__badge">{cartCount}</span> : null}
@@ -96,27 +133,24 @@ export function SiteHeader({ user, cartCount }: Props) {
             <>
               <Link
                 href={user.role === "ADMIN" ? "/admin" : user.role === "COURIER" ? "/entregador" : "/conta"}
-                className="btn btn--sm"
+                className="btn btn--sm nav__auth"
               >
                 {user.role === "CUSTOMER" ? "A minha conta" : user.name.split(" ")[0]}
               </Link>
-              <button className="btn btn--ghost btn--sm" onClick={logout} disabled={busy}>
+              <button className="btn btn--ghost btn--sm nav__auth" onClick={logout} disabled={busy}>
                 Sair
               </button>
             </>
           ) : (
             <>
-              <Link href="/entrar" className="btn btn--ghost btn--sm">
+              <Link href="/entrar" className="btn btn--ghost btn--sm nav__auth">
                 Entrar
               </Link>
-              <Link href="/entrar?modo=registo" className="btn btn--green btn--sm">
+              <Link href="/entrar?modo=registo" className="btn btn--green btn--sm nav__auth">
                 Criar conta
               </Link>
             </>
           )}
-          <button className="nav__toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-label="Abrir menu">
-            ☰
-          </button>
         </div>
       </div>
     </header>

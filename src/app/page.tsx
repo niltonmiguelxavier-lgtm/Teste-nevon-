@@ -329,6 +329,11 @@ export default async function HomePage() {
             </ul>
           </div>
           <div className="map">
+            <div className="map__fallback" aria-hidden="true">
+              <strong>Express Delivery</strong>
+              <span>Av. Julius Nyerere 1240, Maputo</span>
+              <span className="small">Maputo · Matola · Marracuene</span>
+            </div>
             <iframe
               title="Localização Express Delivery — Maputo"
               src="https://www.openstreetmap.org/export/embed.html?bbox=32.5545%2C-25.9800%2C32.6145%2C-25.9300&layer=mapnik&marker=-25.9550%2C32.5845"

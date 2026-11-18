@@ -71,6 +71,11 @@ export default function ContactsPage() {
           </div>
 
           <div className="map">
+            <div className="map__fallback" aria-hidden="true">
+              <strong>Express Delivery</strong>
+              <span>Av. Julius Nyerere 1240, Maputo — Maputo, Moçambique</span>
+              <span className="small">Maputo · Matola · Marracuene</span>
+            </div>
             <iframe
               title="Mapa da zona de entrega — Maputo"
               src="https://www.openstreetmap.org/export/embed.html?bbox=32.5200%2C-26.0200%2C32.6600%2C-25.8900&layer=mapnik&marker=-25.9667%2C32.5833"
