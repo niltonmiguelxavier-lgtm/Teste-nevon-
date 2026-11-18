@@ -274,13 +274,22 @@ async function main() {
       method: "POST",
       body: { reference: state.order.reference, method: "SANDBOX" },
     });
-    if (state.nevonConfigured && first.status === 201) {
+    if (state.nevonConfigured) {
+      // A primeira chamada pode criar (201) ou reutilizar (200) a transacção já
+      // aberta por P1 — em qualquer dos casos a segunda tem de devolver a MESMA
+      // transacção, sem criar um segundo pagamento no provedor.
+      assert([200, 201].includes(first.status), `primeira chamada devolveu ${first.status}`);
       assert(second.status === 200 && second.json.data.reused, "não reutilizou a transacção activa");
       assert(
         second.json.data.provider_payment_id === first.json.data.provider_payment_id,
         "criou um segundo pagamento no provedor"
       );
-      return "segunda chamada devolveu a mesma transacção";
+      const detail = await req(`/api/orders/${state.order.reference}`);
+      assert(
+        detail.json.data.transaction?.provider_payment_id === first.json.data.provider_payment_id,
+        "a base de dados tem uma transacção diferente da devolvida"
+      );
+      return `mesma transacção ${first.json.data.provider_payment_id} · 1.ª ${first.status} → 2.ª ${second.status} reused=true`;
     }
     // Sem chave: ambas falham de forma segura e não deixam transacção activa
     assert(first.status === 503 && second.status === 503, "estado inesperado");
