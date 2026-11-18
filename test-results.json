@@ -1,197 +1,197 @@
 {
-  "base": "http://127.0.0.1:3000",
-  "ran_at": "2026-11-18T03:43:13.830Z",
-  "passed": 27,
-  "failed": 0,
+  "base": "https://express-delivery-navy.vercel.app",
+  "ran_at": "2026-11-18T03:46:14.510Z",
+  "passed": 8,
+  "failed": 19,
   "results": [
     {
       "id": "S1",
       "area": "saúde",
       "name": "GET /api/health devolve estado da BD e Nevon Pay",
-      "status": "PASS",
-      "detail": "tabelas=15 schema=express nevonpay=SANDBOX (331ms)"
+      "status": "FAIL",
+      "detail": "status 503: {\"success\":true,\"data\":{\"service\":\"express-delivery\",\"status\":\"degraded\",\"database\":{\"ok\":false,\"error\":\"(EMAXCONNSESSION) max clients reached in session mode - max clients are limited to pool_size: 15\"},\"nevonpay\":{\"configured\":false,\"environment\":\"SANDBOX\",\"base_url\":\"https://nevon-pay.vercel.app\",\"key_kind\":\"absent\",\"webhook_secret_configured\":true},\"time\":\"2026-11-18T03:46:07.836Z\"}}"
     },
     {
       "id": "C1",
       "area": "catálogo",
       "name": "catálogo público devolve categorias e produtos",
-      "status": "PASS",
-      "detail": "6 categorias · 17 produtos (442ms)"
+      "status": "FAIL",
+      "detail": "status 500"
     },
     {
       "id": "A1",
       "area": "autenticação",
       "name": "registo de cliente válido",
-      "status": "PASS",
-      "detail": "utilizador 937035c7… · sessão criada (849ms)"
+      "status": "FAIL",
+      "detail": "status 500: {\"success\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Não foi possível criar a conta.\"}}"
     },
     {
       "id": "A2",
       "area": "autenticação",
       "name": "registo duplicado é recusado (409)",
-      "status": "PASS",
-      "detail": "EMAIL_IN_USE (152ms)"
+      "status": "FAIL",
+      "detail": "esperado 409, recebido 500"
     },
     {
       "id": "A3",
       "area": "autenticação",
       "name": "validação de dados no servidor (telefone inválido)",
       "status": "PASS",
-      "detail": "name, phone, phone, password, password (5ms)"
+      "detail": "name, phone, phone, password, password (110ms)"
     },
     {
       "id": "A4",
       "area": "autenticação",
       "name": "logout e novo login com credenciais válidas",
-      "status": "PASS",
-      "detail": "redirect=/conta (1326ms)"
+      "status": "FAIL",
+      "detail": "login falhou: 500 {\"success\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Não foi possível iniciar sessão.\"}}"
     },
     {
       "id": "A5",
       "area": "autenticação",
       "name": "login com palavra-passe errada é recusado",
-      "status": "PASS",
-      "detail": "credenciais inválidas sem revelar se o email existe (395ms)"
+      "status": "FAIL",
+      "detail": "esperado 401, recebido 500"
     },
     {
       "id": "B1",
       "area": "carrinho",
       "name": "adicionar produto e verificar totais no servidor",
-      "status": "PASS",
-      "detail": "subtotal=36000 entrega=15000 (304ms)"
+      "status": "FAIL",
+      "detail": "Cannot read properties of undefined (reading 'id')"
     },
     {
       "id": "O1",
       "area": "pedidos",
       "name": "criação de pedido com preços calculados no servidor",
-      "status": "PASS",
-      "detail": "EX-2026-9C5084 total=75300 (subtotal 67000, desconto 6700) (2034ms)"
+      "status": "FAIL",
+      "detail": "Cannot read properties of undefined (reading 'id')"
     },
     {
       "id": "O2",
       "area": "pedidos",
       "name": "pedido rejeita produto inexistente",
-      "status": "PASS",
-      "detail": "PRODUCT_NOT_FOUND (295ms)"
+      "status": "FAIL",
+      "detail": "esperado 409, recebido 401"
     },
     {
       "id": "O3",
       "area": "pedidos",
       "name": "pedido exige sessão (401 sem cookie)",
       "status": "PASS",
-      "detail": "rota protegida (5ms)"
+      "detail": "rota protegida (111ms)"
     },
     {
       "id": "P1",
       "area": "pagamento",
       "name": "criação de cobrança na Nevon Pay (chave configurada ou falha segura)",
-      "status": "PASS",
-      "detail": "sem chave: falha segura, nenhuma cobrança fictícia (295ms)"
+      "status": "FAIL",
+      "detail": "Cannot read properties of undefined (reading 'reference')"
     },
     {
       "id": "P2",
       "area": "pagamento",
       "name": "regresso à página de sucesso NÃO marca como pago",
-      "status": "PASS",
-      "detail": "verify=409 payment_status=PENDING (1772ms)"
+      "status": "FAIL",
+      "detail": "Cannot read properties of undefined (reading 'reference')"
     },
     {
       "id": "P3",
       "area": "pagamento",
       "name": "idempotência: dois pedidos de pagamento não duplicam transacções",
-      "status": "PASS",
-      "detail": "sem transacção activa (última: nenhuma) (1323ms)"
+      "status": "FAIL",
+      "detail": "Cannot read properties of undefined (reading 'reference')"
     },
     {
       "id": "P4",
       "area": "pagamento",
       "name": "webhook sem assinatura não confirma pagamentos",
-      "status": "PASS",
-      "detail": "webhook registado, matched=false, changed=false (1476ms)"
+      "status": "FAIL",
+      "detail": "status 500"
     },
     {
       "id": "R1",
       "area": "segurança",
       "name": "cliente não acede a rotas de administração",
-      "status": "PASS",
-      "detail": "401/403 em /api/admin/* e /api/courier/* (456ms)"
+      "status": "FAIL",
+      "detail": "esperado 403, recebido 401"
     },
     {
       "id": "R2",
       "area": "segurança",
       "name": "painel /admin redirecciona quem não é administrador",
-      "status": "PASS",
-      "detail": "cliente autenticado → /conta (1050ms)"
+      "status": "FAIL",
+      "detail": "cliente devia ir para /conta, foi para /entrar?next=/admin"
     },
     {
       "id": "R3",
       "area": "segurança",
       "name": "dados de outro cliente não são acessíveis",
-      "status": "PASS",
-      "detail": "referência inexistente devolve 404 (295ms)"
+      "status": "FAIL",
+      "detail": "esperado 404, recebido 401"
     },
     {
       "id": "D1",
       "area": "administração",
       "name": "login de administrador e estatísticas",
-      "status": "PASS",
-      "detail": "pedidos=3 estados (2160ms)"
+      "status": "FAIL",
+      "detail": "login admin falhou: 500 {\"success\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Não foi possível iniciar sessão.\"}}"
     },
     {
       "id": "D2",
       "area": "administração",
       "name": "diagnóstico Nevon Pay devolve passos reais e não expõe a chave",
-      "status": "PASS",
-      "detail": "GET /api/health respondeu 200 em 2569 ms. (2905ms)"
+      "status": "FAIL",
+      "detail": "status 401"
     },
     {
       "id": "D3",
       "area": "entregador",
       "name": "entregador vê apenas as suas entregas",
-      "status": "PASS",
-      "detail": "1 entregas atribuídas · admin bloqueado (1386ms)"
+      "status": "FAIL",
+      "detail": "login entregador falhou: 500"
     },
     {
       "id": "H1",
       "area": "interface",
       "name": "página / renderiza",
       "status": "PASS",
-      "detail": "40176 bytes (174ms)"
+      "detail": "39965 bytes (189ms)"
     },
     {
       "id": "H2",
       "area": "interface",
       "name": "página /produtos renderiza",
       "status": "PASS",
-      "detail": "40751 bytes (322ms)"
+      "detail": "40523 bytes (271ms)"
     },
     {
       "id": "H3",
       "area": "interface",
       "name": "página /como-funciona renderiza",
       "status": "PASS",
-      "detail": "21470 bytes (162ms)"
+      "detail": "21242 bytes (154ms)"
     },
     {
       "id": "H4",
       "area": "interface",
       "name": "página /contactos renderiza",
       "status": "PASS",
-      "detail": "16051 bytes (159ms)"
+      "detail": "15823 bytes (130ms)"
     },
     {
       "id": "H5",
       "area": "interface",
       "name": "página /acompanhar renderiza",
       "status": "PASS",
-      "detail": "15647 bytes (157ms)"
+      "detail": "15419 bytes (130ms)"
     },
     {
       "id": "H6",
       "area": "interface",
       "name": "página /entrar renderiza",
       "status": "PASS",
-      "detail": "14584 bytes (13ms)"
+      "detail": "14584 bytes (129ms)"
     }
   ]
 }

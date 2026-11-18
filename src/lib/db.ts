@@ -48,9 +48,14 @@ function pool(): Pool {
   if (!global.__expressPool) {
     global.__expressPool = new Pool({
       ...connectionOptions(connectionString),
-      max: Number(process.env.DATABASE_POOL_MAX || 5),
-      idleTimeoutMillis: 30_000,
-      connectionTimeoutMillis: 12_000,
+      // Em serverless (Vercel) cada instância abre o seu próprio pool; o pooler
+      // do Supabase em modo "transaction" multiplexa as ligações. Mantemos o
+      // pool pequeno e as ligações ociosas de vida curta para não esgotar o
+      // limite do pooler quando há muitas funções concorrentes.
+      max: Number(process.env.DATABASE_POOL_MAX || 3),
+      idleTimeoutMillis: 5_000,
+      connectionTimeoutMillis: 15_000,
+      allowExitOnIdle: true,
       options: "-c search_path=express,public",
     });
 
