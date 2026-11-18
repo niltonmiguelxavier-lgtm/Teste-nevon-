@@ -175,6 +175,18 @@ export function PaymentPanel({ reference, canPay, isPaid, transaction, total }: 
       ) : null}
 
       {!isPaid && transaction ? (
+        <div className="notice notice--warn" style={{ marginTop: 12 }}>
+          <span>
+            <strong>Ambiente de testes.</strong> A página de pagamento da Nevon Pay é, por agora,
+            apenas informativa: mostra o valor e o estado, mas <strong>não tem formulário de
+            pagamento</strong> e não conclui cobranças (M-Pesa e e-Mola ainda não estão activados
+            na gateway). Por isso o pedido fica em <em>Aguarda pagamento</em> — nada é marcado como
+            pago sem uma confirmação real da Nevon Pay.
+          </span>
+        </div>
+      ) : null}
+
+      {!isPaid && transaction ? (
         <p className="hint" style={{ marginTop: 12 }}>
           Verificação automática a cada 15 segundos.
           {lastCheck ? ` Última: ${formatDateTime(lastCheck)}.` : ""} A confirmação vem sempre da API

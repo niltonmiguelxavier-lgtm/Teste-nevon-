@@ -82,7 +82,7 @@ export function AuthForm({ initialMode, next }: { initialMode: Mode; next?: stri
         </div>
       ) : null}
 
-      <form onSubmit={submit} noValidate>
+      <form onSubmit={submit} method="post" noValidate>
         {mode === "registo" ? (
           <>
             <div className="field">

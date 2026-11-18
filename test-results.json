@@ -1,6 +1,6 @@
 {
-  "base": "https://express-delivery-navy.vercel.app",
-  "ran_at": "2026-11-18T03:54:46.737Z",
+  "base": "http://127.0.0.1:3000",
+  "ran_at": "2026-11-18T04:06:25.663Z",
   "passed": 27,
   "failed": 0,
   "results": [
@@ -9,189 +9,189 @@
       "area": "saúde",
       "name": "GET /api/health devolve estado da BD e Nevon Pay",
       "status": "PASS",
-      "detail": "tabelas=15 schema=express nevonpay=SANDBOX (473ms)"
+      "detail": "tabelas=15 schema=express nevonpay=SANDBOX (1218ms)"
     },
     {
       "id": "C1",
       "area": "catálogo",
       "name": "catálogo público devolve categorias e produtos",
       "status": "PASS",
-      "detail": "6 categorias · 17 produtos (437ms)"
+      "detail": "6 categorias · 17 produtos (444ms)"
     },
     {
       "id": "A1",
       "area": "autenticação",
       "name": "registo de cliente válido",
       "status": "PASS",
-      "detail": "utilizador daaeca7f… · sessão criada (829ms)"
+      "detail": "utilizador 058b1207… · sessão criada (905ms)"
     },
     {
       "id": "A2",
       "area": "autenticação",
       "name": "registo duplicado é recusado (409)",
       "status": "PASS",
-      "detail": "EMAIL_IN_USE (1382ms)"
+      "detail": "EMAIL_IN_USE (151ms)"
     },
     {
       "id": "A3",
       "area": "autenticação",
       "name": "validação de dados no servidor (telefone inválido)",
       "status": "PASS",
-      "detail": "name, phone, phone, password, password (210ms)"
+      "detail": "name, phone, phone, password, password (7ms)"
     },
     {
       "id": "A4",
       "area": "autenticação",
       "name": "logout e novo login com credenciais válidas",
       "status": "PASS",
-      "detail": "redirect=/conta (1211ms)"
+      "detail": "redirect=/conta (1284ms)"
     },
     {
       "id": "A5",
       "area": "autenticação",
       "name": "login com palavra-passe errada é recusado",
       "status": "PASS",
-      "detail": "credenciais inválidas sem revelar se o email existe (635ms)"
+      "detail": "credenciais inválidas sem revelar se o email existe (467ms)"
     },
     {
       "id": "B1",
       "area": "carrinho",
       "name": "adicionar produto e verificar totais no servidor",
       "status": "PASS",
-      "detail": "subtotal=36000 entrega=15000 (365ms)"
+      "detail": "subtotal=36000 entrega=15000 (301ms)"
     },
     {
       "id": "O1",
       "area": "pedidos",
       "name": "criação de pedido com preços calculados no servidor",
       "status": "PASS",
-      "detail": "EX-2026-45DA0F total=75300 (subtotal 67000, desconto 6700) (1206ms)"
+      "detail": "EX-2026-0AA04A total=75300 (subtotal 67000, desconto 6700) (2041ms)"
     },
     {
       "id": "O2",
       "area": "pedidos",
       "name": "pedido rejeita produto inexistente",
       "status": "PASS",
-      "detail": "PRODUCT_NOT_FOUND (252ms)"
+      "detail": "PRODUCT_NOT_FOUND (298ms)"
     },
     {
       "id": "O3",
       "area": "pedidos",
       "name": "pedido exige sessão (401 sem cookie)",
       "status": "PASS",
-      "detail": "rota protegida (105ms)"
+      "detail": "rota protegida (6ms)"
     },
     {
       "id": "P1",
       "area": "pagamento",
       "name": "criação de cobrança na Nevon Pay (chave configurada ou falha segura)",
       "status": "PASS",
-      "detail": "pagamento cmwll7u57000zl808upazjii4 criado · PENDING (4578ms)"
+      "detail": "pagamento cmwllmq4u000bl807irmowkgs criado · PENDING (3781ms)"
     },
     {
       "id": "P2",
       "area": "pagamento",
       "name": "regresso à página de sucesso NÃO marca como pago",
       "status": "PASS",
-      "detail": "verify=200 payment_status=PENDING (2987ms)"
+      "detail": "verify=200 payment_status=PENDING (5284ms)"
     },
     {
       "id": "P3",
       "area": "pagamento",
       "name": "idempotência: dois pedidos de pagamento não duplicam transacções",
       "status": "PASS",
-      "detail": "mesma transacção cmwll7u57000zl808upazjii4 · 1.ª 200 → 2.ª 200 reused=true (1394ms)"
+      "detail": "mesma transacção cmwllmq4u000bl807irmowkgs · 1.ª 200 → 2.ª 200 reused=true (2198ms)"
     },
     {
       "id": "P4",
       "area": "pagamento",
       "name": "webhook sem assinatura não confirma pagamentos",
       "status": "PASS",
-      "detail": "webhook registado, matched=false, changed=false (917ms)"
+      "detail": "webhook registado, matched=false, changed=false (1474ms)"
     },
     {
       "id": "R1",
       "area": "segurança",
       "name": "cliente não acede a rotas de administração",
       "status": "PASS",
-      "detail": "401/403 em /api/admin/* e /api/courier/* (543ms)"
+      "detail": "401/403 em /api/admin/* e /api/courier/* (450ms)"
     },
     {
       "id": "R2",
       "area": "segurança",
       "name": "painel /admin redirecciona quem não é administrador",
       "status": "PASS",
-      "detail": "cliente autenticado → /conta (628ms)"
+      "detail": "cliente autenticado → /conta (1051ms)"
     },
     {
       "id": "R3",
       "area": "segurança",
       "name": "dados de outro cliente não são acessíveis",
       "status": "PASS",
-      "detail": "referência inexistente devolve 404 (318ms)"
+      "detail": "referência inexistente devolve 404 (297ms)"
     },
     {
       "id": "D1",
       "area": "administração",
       "name": "login de administrador e estatísticas",
       "status": "PASS",
-      "detail": "pedidos=3 estados (1979ms)"
+      "detail": "pedidos=3 estados (2233ms)"
     },
     {
       "id": "D2",
       "area": "administração",
       "name": "diagnóstico Nevon Pay devolve passos reais e não expõe a chave",
       "status": "PASS",
-      "detail": "GET /api/health respondeu 200 em 403 ms. (1094ms)"
+      "detail": "GET /api/health respondeu 200 em 546 ms. (1448ms)"
     },
     {
       "id": "D3",
       "area": "entregador",
       "name": "entregador vê apenas as suas entregas",
       "status": "PASS",
-      "detail": "1 entregas atribuídas · admin bloqueado (1265ms)"
+      "detail": "1 entregas atribuídas · admin bloqueado (1330ms)"
     },
     {
       "id": "H1",
       "area": "interface",
       "name": "página / renderiza",
       "status": "PASS",
-      "detail": "40176 bytes (307ms)"
+      "detail": "40193 bytes (169ms)"
     },
     {
       "id": "H2",
       "area": "interface",
       "name": "página /produtos renderiza",
       "status": "PASS",
-      "detail": "40751 bytes (267ms)"
+      "detail": "40751 bytes (312ms)"
     },
     {
       "id": "H3",
       "area": "interface",
       "name": "página /como-funciona renderiza",
       "status": "PASS",
-      "detail": "21470 bytes (197ms)"
+      "detail": "21470 bytes (160ms)"
     },
     {
       "id": "H4",
       "area": "interface",
       "name": "página /contactos renderiza",
       "status": "PASS",
-      "detail": "16051 bytes (186ms)"
+      "detail": "16051 bytes (160ms)"
     },
     {
       "id": "H5",
       "area": "interface",
       "name": "página /acompanhar renderiza",
       "status": "PASS",
-      "detail": "15647 bytes (187ms)"
+      "detail": "15647 bytes (158ms)"
     },
     {
       "id": "H6",
       "area": "interface",
       "name": "página /entrar renderiza",
       "status": "PASS",
-      "detail": "14584 bytes (150ms)"
+      "detail": "14584 bytes (12ms)"
     }
   ]
 }

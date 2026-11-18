@@ -216,7 +216,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
 
   return (
     <div className="cart-layout">
-      <form onSubmit={createOrder} noValidate>
+      <form onSubmit={createOrder} method="post" noValidate>
         {savedAddresses.length > 0 ? (
           <div className="card card--flat" style={{ marginBottom: 16 }}>
             <strong style={{ fontSize: "0.9rem" }}>Endereços guardados</strong>
@@ -243,6 +243,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="recipient">Quem recebe</label>
               <input
                 id="recipient"
+                name="recipient" autoComplete="name"
                 value={delivery.recipient}
                 onChange={(event) => setDelivery({ ...delivery, recipient: event.target.value })}
                 required
@@ -255,6 +256,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="phone">Telefone de contacto</label>
               <input
                 id="phone"
+                name="delivery_phone" autoComplete="tel"
                 value={delivery.phone}
                 onChange={(event) => setDelivery({ ...delivery, phone: event.target.value })}
                 placeholder="84 123 4567"
@@ -271,6 +273,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="street">Avenida / Rua</label>
               <input
                 id="street"
+                name="street" autoComplete="address-line1"
                 value={delivery.street}
                 onChange={(event) => setDelivery({ ...delivery, street: event.target.value })}
                 placeholder="Av. Julius Nyerere"
@@ -284,6 +287,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="number">Nº</label>
               <input
                 id="number"
+                name="number" autoComplete="address-line2"
                 value={delivery.number}
                 onChange={(event) => setDelivery({ ...delivery, number: event.target.value })}
                 placeholder="1240"
@@ -293,6 +297,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="neighbourhood">Bairro</label>
               <input
                 id="neighbourhood"
+                name="neighbourhood" autoComplete="address-level3"
                 value={delivery.neighbourhood}
                 onChange={(event) => setDelivery({ ...delivery, neighbourhood: event.target.value })}
                 placeholder="Sommerschield"
@@ -305,6 +310,7 @@ export function CheckoutForm({ lines, subtotal, fee, promoCode, methods, custome
               <label htmlFor="city">Cidade</label>
               <select
                 id="city"
+                name="city" autoComplete="address-level2"
                 value={delivery.city}
                 onChange={(event) => setDelivery({ ...delivery, city: event.target.value })}
               >
