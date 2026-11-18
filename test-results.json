@@ -1,6 +1,6 @@
 {
   "base": "http://127.0.0.1:3000",
-  "ran_at": "2026-11-18T04:19:45.365Z",
+  "ran_at": "2026-11-18T04:24:07.217Z",
   "passed": 27,
   "failed": 0,
   "results": [
@@ -9,21 +9,21 @@
       "area": "saúde",
       "name": "GET /api/health devolve estado da BD e Nevon Pay",
       "status": "PASS",
-      "detail": "tabelas=15 schema=express nevonpay=SANDBOX (347ms)"
+      "detail": "tabelas=15 schema=express nevonpay=SANDBOX (377ms)"
     },
     {
       "id": "C1",
       "area": "catálogo",
       "name": "catálogo público devolve categorias e produtos",
       "status": "PASS",
-      "detail": "6 categorias · 17 produtos (443ms)"
+      "detail": "6 categorias · 17 produtos (459ms)"
     },
     {
       "id": "A1",
       "area": "autenticação",
       "name": "registo de cliente válido",
       "status": "PASS",
-      "detail": "utilizador 339e3ae0… · sessão criada (931ms)"
+      "detail": "utilizador ee6450a3… · sessão criada (918ms)"
     },
     {
       "id": "A2",
@@ -44,154 +44,154 @@
       "area": "autenticação",
       "name": "logout e novo login com credenciais válidas",
       "status": "PASS",
-      "detail": "redirect=/conta (1339ms)"
+      "detail": "redirect=/conta (1356ms)"
     },
     {
       "id": "A5",
       "area": "autenticação",
       "name": "login com palavra-passe errada é recusado",
       "status": "PASS",
-      "detail": "credenciais inválidas sem revelar se o email existe (487ms)"
+      "detail": "credenciais inválidas sem revelar se o email existe (508ms)"
     },
     {
       "id": "B1",
       "area": "carrinho",
       "name": "adicionar produto e verificar totais no servidor",
       "status": "PASS",
-      "detail": "subtotal=36000 entrega=15000 (301ms)"
+      "detail": "subtotal=36000 entrega=15000 (309ms)"
     },
     {
       "id": "O1",
       "area": "pedidos",
       "name": "criação de pedido com preços calculados no servidor",
       "status": "PASS",
-      "detail": "EX-2026-7CB177 total=75300 (subtotal 67000, desconto 6700) (2033ms)"
+      "detail": "EX-2026-8D63C4 total=75300 (subtotal 67000, desconto 6700) (2069ms)"
     },
     {
       "id": "O2",
       "area": "pedidos",
       "name": "pedido rejeita produto inexistente",
       "status": "PASS",
-      "detail": "PRODUCT_NOT_FOUND (296ms)"
+      "detail": "PRODUCT_NOT_FOUND (301ms)"
     },
     {
       "id": "O3",
       "area": "pedidos",
       "name": "pedido exige sessão (401 sem cookie)",
       "status": "PASS",
-      "detail": "rota protegida (5ms)"
+      "detail": "rota protegida (6ms)"
     },
     {
       "id": "P1",
       "area": "pagamento",
       "name": "criação de cobrança na Nevon Pay (chave configurada ou falha segura)",
       "status": "PASS",
-      "detail": "pagamento cmwlm3set000ml00820vt7v0f criado · PENDING (4393ms)"
+      "detail": "pagamento cmwlm9ebx0021l008gqvo8gpa criado · PENDING (3803ms)"
     },
     {
       "id": "P2",
       "area": "pagamento",
       "name": "regresso à página de sucesso NÃO marca como pago",
       "status": "PASS",
-      "detail": "verify=200 payment_status=PENDING (5274ms)"
+      "detail": "verify=200 payment_status=PENDING (6112ms)"
     },
     {
       "id": "P3",
       "area": "pagamento",
       "name": "idempotência: dois pedidos de pagamento não duplicam transacções",
       "status": "PASS",
-      "detail": "mesma transacção cmwlm3set000ml00820vt7v0f · 1.ª 200 → 2.ª 200 reused=true (4412ms)"
+      "detail": "mesma transacção cmwlm9ebx0021l008gqvo8gpa · 1.ª 200 → 2.ª 200 reused=true (4099ms)"
     },
     {
       "id": "P4",
       "area": "pagamento",
       "name": "webhook sem assinatura não confirma pagamentos",
       "status": "PASS",
-      "detail": "webhook registado, matched=false, changed=false (1458ms)"
+      "detail": "webhook registado, matched=false, changed=false (1476ms)"
     },
     {
       "id": "R1",
       "area": "segurança",
       "name": "cliente não acede a rotas de administração",
       "status": "PASS",
-      "detail": "401/403 em /api/admin/* e /api/courier/* (448ms)"
+      "detail": "401/403 em /api/admin/* e /api/courier/* (452ms)"
     },
     {
       "id": "R2",
       "area": "segurança",
       "name": "painel /admin redirecciona quem não é administrador",
       "status": "PASS",
-      "detail": "cliente autenticado → /conta (1047ms)"
+      "detail": "cliente autenticado → /conta (1087ms)"
     },
     {
       "id": "R3",
       "area": "segurança",
       "name": "dados de outro cliente não são acessíveis",
       "status": "PASS",
-      "detail": "referência inexistente devolve 404 (294ms)"
+      "detail": "referência inexistente devolve 404 (313ms)"
     },
     {
       "id": "D1",
       "area": "administração",
       "name": "login de administrador e estatísticas",
       "status": "PASS",
-      "detail": "pedidos=3 estados (2200ms)"
+      "detail": "pedidos=3 estados (2224ms)"
     },
     {
       "id": "D2",
       "area": "administração",
       "name": "diagnóstico Nevon Pay devolve passos reais e não expõe a chave",
       "status": "PASS",
-      "detail": "GET /api/health respondeu 200 em 575 ms. (1520ms)"
+      "detail": "GET /api/health respondeu 200 em 565 ms. (1480ms)"
     },
     {
       "id": "D3",
       "area": "entregador",
       "name": "entregador vê apenas as suas entregas",
       "status": "PASS",
-      "detail": "1 entregas atribuídas · admin bloqueado (1273ms)"
+      "detail": "1 entregas atribuídas · admin bloqueado (1326ms)"
     },
     {
       "id": "H1",
       "area": "interface",
       "name": "página / renderiza",
       "status": "PASS",
-      "detail": "40176 bytes (1079ms)"
+      "detail": "40219 bytes (1065ms)"
     },
     {
       "id": "H2",
       "area": "interface",
       "name": "página /produtos renderiza",
       "status": "PASS",
-      "detail": "40751 bytes (320ms)"
+      "detail": "40751 bytes (321ms)"
     },
     {
       "id": "H3",
       "area": "interface",
       "name": "página /como-funciona renderiza",
       "status": "PASS",
-      "detail": "21470 bytes (161ms)"
+      "detail": "21470 bytes (162ms)"
     },
     {
       "id": "H4",
       "area": "interface",
       "name": "página /contactos renderiza",
       "status": "PASS",
-      "detail": "16051 bytes (159ms)"
+      "detail": "16051 bytes (161ms)"
     },
     {
       "id": "H5",
       "area": "interface",
       "name": "página /acompanhar renderiza",
       "status": "PASS",
-      "detail": "15647 bytes (162ms)"
+      "detail": "15647 bytes (165ms)"
     },
     {
       "id": "H6",
       "area": "interface",
       "name": "página /entrar renderiza",
       "status": "PASS",
-      "detail": "14598 bytes (18ms)"
+      "detail": "14598 bytes (16ms)"
     }
   ]
 }

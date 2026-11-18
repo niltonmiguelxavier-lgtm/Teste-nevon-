@@ -322,17 +322,31 @@ export async function verifyOrderPayment(orderId: string): Promise<VerificationR
       tx.provider_payment_id ?? tx.provider_ref ?? "",
       order.reference
     );
+
+    // O estado do pagamento pode continuar PENDING mesmo depois de o cliente
+    // cancelar a sessão na página da Nevon Pay. O estado autoritativo para o
+    // cliente é o da SESSÃO: se ela foi cancelada/expirada, a cobrança acabou.
+    let effectiveStatus = payment.status;
+    let sessionStatus: string | null = null;
+    if (tx.checkout_session_id && !["COMPLETED", "FAILED"].includes(payment.status)) {
+      sessionStatus = await checkoutSessionState(tx.checkout_session_id);
+      if (sessionStatus === "CANCELLED" || sessionStatus === "EXPIRED") {
+        effectiveStatus = sessionStatus as typeof payment.status;
+      }
+      if (sessionStatus === "COMPLETED") effectiveStatus = "COMPLETED";
+    }
+
     const outcome = await applyProviderStatus({
       transactionId: tx.id,
       payment: {
         id: payment.id,
-        status: payment.status,
+        status: effectiveStatus,
         reference: payment.reference,
         providerRef: payment.providerRef ?? null,
       },
       source: "API_QUERY",
     });
-    return { ok: true, outcome, providerStatus: payment.status };
+    return { ok: true, outcome, providerStatus: effectiveStatus };
   } catch (error) {
     const nevonError = error instanceof NevonError ? error : null;
     await query(
