@@ -276,3 +276,37 @@ Altere estas palavras-passe (`SEED_ADMIN_PASSWORD`, `SEED_COURIER_PASSWORD`,
 **API:** `/api/health`, `/api/catalog`, `/api/cart`, `/api/auth/{register,login,logout}`,
 `/api/orders`, `/api/orders/[referência]`, `/api/payments/create`, `/api/payments/verify`,
 `/api/payments/webhook`, `/api/courier/deliveries[/[id]]`, `/api/admin/*`
+
+
+---
+
+## 12. Integração Nevon Pay — comprovada em sandbox
+
+Chave de teste configurada apenas no servidor (`NEVONPAY_SECRET_KEY`, variável *sensitive*
+na Vercel; nunca incluída no repositório nem em respostas de API). Verificação executada
+contra `https://nevon-pay.vercel.app`:
+
+| Passo | Resultado |
+|---|---|
+| Autenticação exigida | `401 MISSING_API_KEY` sem chave (comportamento documentado) |
+| Autenticação com a chave | `200` — chave aceite |
+| Criar transacção de teste | pagamento real criado, estado `PENDING` |
+| Consultar transacção | `GET /api/v1/payments/{id}` → estado `PENDING` |
+| Criar cobrança de um pedido (`POST /api/payments/create`) | `201` com `provider_payment_id` + `checkout_url` reais |
+| Página de checkout da gateway | abre e mostra o valor correcto (ex.: 350 MZN) |
+| Repetir a cobrança | `200` `reused=true` — mesma transacção, sem duplicar |
+| Consulta autenticada de estado | `200` → `provider_status` devolvido pela gateway |
+| Regresso à URL de sucesso | **não** marca como pago (`payment_status` continua `PENDING`) |
+| Webhook sem assinatura | registado, `matched=false`, `changed=false`, pedido intacto |
+
+Evidência visual: `docs/screenshots/21-diagnostico-real.png` (6/6 passos verdes) e
+`docs/screenshots/20-checkout-nevonpay.png` (checkout da gateway).
+
+### Porque um pagamento de sandbox não fica "Pago"
+
+No ambiente de testes da Nevon Pay os pagamentos ficam em `PENDING`: não existe (nem deve
+existir) confirmação simulada. A aplicação mostra `Aguarda pagamento`, assegura que o
+regresso à URL de sucesso não altera o estado e só confirma quando uma consulta autenticada
+devolver `COMPLETED`. Os métodos `mpesa` e `emola` respondem `503 PROVIDER_NOT_CONFIGURED`
+na própria gateway enquanto os provedores não estiverem activados; a interface apresenta-os
+etiquetados, sem os inventar.
