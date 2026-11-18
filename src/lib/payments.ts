@@ -99,9 +99,19 @@ export async function createPaymentForOrder(input: {
     const expired =
       existingActive.expires_at !== null && new Date(existingActive.expires_at).getTime() < Date.now();
     if (!expired && existingActive.checkout_url) {
-      return { kind: "reused", transaction: existingActive, checkoutUrl: existingActive.checkout_url };
-    }
-    if (expired) {
+      // A sessão pode ter sido cancelada na própria gateway (o botão "Cancelar
+      // este pagamento"). Nesse caso o link está morto e não deve ser reutilizado.
+      const sessionState = await checkoutSessionState(existingActive.checkout_session_id);
+      if (sessionState === "CANCELLED" || sessionState === "EXPIRED" || sessionState === "COMPLETED") {
+        await query(
+          `UPDATE transactions SET status = $2, updated_at = now()
+            WHERE id = $1 AND status IN ('OPEN','PENDING','PROCESSING')`,
+          [existingActive.id, sessionState]
+        );
+      } else {
+        return { kind: "reused", transaction: existingActive, checkoutUrl: existingActive.checkout_url };
+      }
+    } else if (expired) {
       await query(
         `UPDATE transactions SET status = 'EXPIRED', updated_at = now() WHERE id = $1 AND status IN ('OPEN','PENDING','PROCESSING')`,
         [existingActive.id]
@@ -209,7 +219,7 @@ export async function createPaymentForOrder(input: {
         tx.id,
         session.status === "OPEN" ? "PENDING" : session.status,
         payment.id,
-        session.payment?.reference ?? payment.reference ?? null,
+        payment.reference ?? session.payment?.reference ?? null,
         session.id,
         checkoutUrl,
         session.expiresAt ? new Date(session.expiresAt) : new Date(Date.now() + 45 * 60 * 1000),
@@ -246,6 +256,27 @@ export type VerificationResult =
  * Confirma o estado do pagamento consultando a Nevon Pay com a chave secreta.
  * Esta é a ÚNICA via que pode marcar um pedido como pago.
  */
+
+/**
+ * Consulta à gateway o estado real da sessão de checkout.
+ *
+ * O cliente pode cancelar o pagamento na própria página da Nevon Pay; sem esta
+ * verificação a aplicação continuaria a mostrar "Continuar pagamento" com um
+ * link que já não existe ("Checkout não encontrado").
+ */
+async function checkoutSessionState(
+  sessionId: string | null
+): Promise<string | null> {
+  if (!sessionId) return null;
+  try {
+    const client = clientFromEnv({ onEvent: logProviderEvent });
+    const session = await client.getCheckoutSession(sessionId);
+    return session.status ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function verifyOrderPayment(orderId: string): Promise<VerificationResult> {
   const order = await queryOne<OrderRow>(`SELECT * FROM orders WHERE id = $1`, [orderId]);
   if (!order) return { ok: false, code: "NOT_FOUND", message: "Pedido não encontrado.", status: 404 };
@@ -274,7 +305,7 @@ export async function verifyOrderPayment(orderId: string): Promise<VerificationR
       },
     };
   }
-  if (!tx.provider_ref) {
+  if (!tx.provider_payment_id && !tx.provider_ref) {
     return {
       ok: false,
       code: "NOT_SENT_TO_PROVIDER",
@@ -285,7 +316,12 @@ export async function verifyOrderPayment(orderId: string): Promise<VerificationR
 
   const client = clientFromEnv({ onEvent: logProviderEvent });
   try {
-    const payment = await client.getPayment(tx.provider_ref, order.reference);
+    // A API só resolve o pagamento pelo seu ID (`cmm…`). O providerRef
+    // (`sandbox_…`) devolve NOT_FOUND, por isso o ID é a primeira escolha.
+    const payment = await client.getPayment(
+      tx.provider_payment_id ?? tx.provider_ref ?? "",
+      order.reference
+    );
     const outcome = await applyProviderStatus({
       transactionId: tx.id,
       payment: {

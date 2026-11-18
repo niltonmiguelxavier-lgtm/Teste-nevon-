@@ -158,10 +158,18 @@ export function PaymentPanel({ reference, canPay, isPaid, transaction, total }: 
 
       {canPay ? (
         <div className="stack" style={{ marginTop: 14 }}>
-          {transaction?.checkout_url && ["OPEN", "PENDING", "PROCESSING"].includes(transaction.status) ? (
+          {transaction?.checkout_url &&
+          ["OPEN", "PENDING"].includes(transaction.status) &&
+          transaction.status !== "PROCESSING" ? (
             <a href={transaction.checkout_url} className="btn btn--green btn--block">
               Continuar pagamento
             </a>
+          ) : null}
+          {transaction && !["OPEN", "PENDING"].includes(transaction.status) ? (
+            <p className="hint" style={{ marginTop: 4 }}>
+              A sessão de pagamento anterior já não está activa ({STATUS_LABELS[transaction.status] ?? transaction.status}).
+              Gera um novo pagamento para tentar outra vez.
+            </p>
           ) : null}
           <button className="btn btn--green btn--block" onClick={payAgain} disabled={busy}>
             {busy ? <span className="spinner" /> : null}

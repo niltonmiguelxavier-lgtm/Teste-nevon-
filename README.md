@@ -337,3 +337,22 @@ M-Pesa/e-Mola e publicar a forma de concluir a cobrança.
 Como consequência, a interface agora avisa o cliente de forma explícita
 (`docs/screenshots/27-pedido-pagamento-aviso.png`), em vez de o deixar pensar que falhou
 algo no pagamento.
+
+
+---
+
+## 14. Correções no ciclo de pagamento (cancelamento na gateway)
+
+Testado no browser: o único botão verde da página de checkout da Nevon Pay é
+**"Cancelar este pagamento"**, e ele cancela mesmo a sessão (`status: CANCELLED`). Isso
+expunha três defeitos na aplicação, todos corrigidos:
+
+| Defeito | Causa | Correção |
+|---|---|---|
+| "Verificar estado" falhava sempre | a consulta usava o `providerRef` (`sandbox_…`), que a API responde `NOT_FOUND`; só o ID (`cmm…`) resolve | `verifyOrderPayment` usa `provider_payment_id` em primeiro lugar |
+| O `provider_ref` guardado não servia | era gravado o `reference` da sessão (`PAY_…`) em vez do pagamento | passa a gravar `payment.reference` |
+| "Continuar pagamento" abria "Checkout não encontrado" | a transacção era reutilizada sem verificar se a sessão ainda estava aberta | antes de reutilizar, consulta `GET /api/v1/checkout/session/{id}`; se estiver `CANCELLED`/`EXPIRED`/`COMPLETED` marca a transacção e cria uma nova |
+
+Ciclo comprovado ponta a ponta: pagamento criado → verificação `200 provider=PENDING` →
+cancelamento na gateway `200 CANCELLED` → novo pedido de pagamento devolve **uma transacção
+nova** (`cmwlm3iyu…`) em vez do link morto.
