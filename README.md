@@ -310,3 +310,30 @@ regresso à URL de sucesso não altera o estado e só confirma quando uma consul
 devolver `COMPLETED`. Os métodos `mpesa` e `emola` respondem `503 PROVIDER_NOT_CONFIGURED`
 na própria gateway enquanto os provedores não estiverem activados; a interface apresenta-os
 etiquetados, sem os inventar.
+
+
+---
+
+## 13. Porque é que o checkout da Nevon Pay "não tem como pagar"
+
+Testado e confirmado: a página `https://nevon-pay.vercel.app/checkout/{id}` **abre e mostra
+o valor e o estado**, mas **não tem formulário de pagamento**. Não é um bug da Express
+Delivery — é o estado actual da gateway:
+
+- Código da própria gateway (`app/checkout/[id]/page.tsx`): mostra valor, estado, prazo,
+  botão *Cancelar este pagamento* e link de regresso. Nenhum campo de pagamento.
+- O dashboard do comerciante da Nevon Pay diz o mesmo: *"O processamento de pagamentos por
+  M-Pesa, e-Mola e bancos ainda não está configurado nesta aplicação. Não é possível cobrar
+  pagamentos por aqui."*
+- A API não expõe endpoint para confirmar/concluir um pagamento (só criar, consultar e
+  cancelar). Confirmar pagamentos por API seria exactamente a "simulação" que foi proibida.
+
+**O que está provado que funciona:** criação real da transacção, `checkout_url` válido,
+consulta autenticada de estado, idempotência, webhook não verificado não altera nada, e o
+diagnóstico com 6/6 passos verdes (`docs/screenshots/21-diagnostico-real.png`).
+**O que fica pendente:** a liquidação de um pagamento — depende de a Nevon Pay activar
+M-Pesa/e-Mola e publicar a forma de concluir a cobrança.
+
+Como consequência, a interface agora avisa o cliente de forma explícita
+(`docs/screenshots/27-pedido-pagamento-aviso.png`), em vez de o deixar pensar que falhou
+algo no pagamento.
